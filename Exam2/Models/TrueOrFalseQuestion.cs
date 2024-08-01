@@ -14,7 +14,7 @@ namespace Exam2.Models
         }
         public override void DisplayQuestion()
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"{Header}\n{Body}\n1. True\n2. False");
         }
     }
 }

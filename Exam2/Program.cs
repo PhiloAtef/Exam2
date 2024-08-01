@@ -4,6 +4,18 @@ namespace Exam2
 {
     internal class Program
     {
+        //do not
+        //forget
+        //make
+        //it
+        //so
+        //that
+        //practical
+        //exam
+        //only
+        //takes 
+        //MCQ
+        //moheeeeemmmmm
 
         static void Main(string[] args)
         {
@@ -27,9 +39,75 @@ namespace Exam2
 
             for (int i = 0; i < exam.NumberOfQuestions; i++)
             {
-                
+                if (GetQuestionType() == 1)
+                {
+                    LineClear.ClearLine();
+                    Console.WriteLine("MCQ Question");
+                    string MCQBody = GetQuestionBody();
+                    int MCQMark = GetQuestionMark();
+                    Question question = new MultiChoiceQuestion("MCQ", MCQBody, MCQMark);
+                    // i < 3 can be replaced by a variable given to the function if we want to set number of answers dynamically but we will assume all MCQs have 3 answers only
+                    for (int j = 0; j < 3; j++)
+                    {
+                        Console.WriteLine($"Enter choice number {j + 1} :");
+                        string answerText = Console.ReadLine() ?? string.Empty;
+                        question.AnswerList.Add(new Answer(i + 1, answerText));
+                    }
+                    Console.WriteLine("Enter right answer ID:");
+                    bool isNumber = int.TryParse(Console.ReadLine(), out var rightAnswerID);
+                    if (!isNumber || rightAnswerID > 3 || rightAnswerID < 1)
+                    {
+                        Console.WriteLine("Not a number inputted or number not in range, Defaulted to first answer");
+                        rightAnswerID = 1;
+                    }
+                    question.RightAnswer = question.AnswerList[rightAnswerID-1];
+
+                    exam.Questions.Add(question);
+                }
+                else
+                {
+                    LineClear.ClearLine();
+                    Console.WriteLine("TrueOrFalse Question");
+                }
+
             }
 
+        }
+        public static int GetQuestionMark()
+        {
+            Console.WriteLine("Please enter question mark");
+            bool isNumber = int.TryParse(Console.ReadLine(), out int questionMark);
+            if (!isNumber)
+            {
+                LineClear.ClearLine();
+                return GetQuestionMark();
+            }
+            return questionMark;
+        }
+
+        public static string GetQuestionBody()
+        {
+            Console.WriteLine("Please Enter Question Body");
+            string body = Console.ReadLine() ?? string.Empty;
+            if (string.IsNullOrEmpty(body))
+            {
+                LineClear.ClearLine();
+                return GetQuestionBody();
+            }
+            return body;
+        }
+
+        public static int GetQuestionType()
+        {
+            Console.Clear();
+            Console.WriteLine("Please enter type of question (1 for MCQ | 2 for TrueOrFalse)");
+            bool isNumber = int.TryParse(Console.ReadLine(), out int questionType);
+            if (!isNumber || questionType > 2 || questionType < 1)
+            {
+                LineClear.ClearLine();
+                return GetQuestionType();
+            }
+            return questionType;
         }
         public static int GetNumberOfQuestions()
         {
@@ -37,9 +115,10 @@ namespace Exam2
             bool isNumber = int.TryParse(Console.ReadLine(), out int questionsNumber);
             if (!isNumber)
             {
-                ClearLine();
+                LineClear.ClearLine();
                 return GetNumberOfQuestions();
             }
+            Console.Clear();
             return questionsNumber;
         }
         public static int GetExamDuration()
@@ -48,7 +127,7 @@ namespace Exam2
             bool isDurationCorrect = int.TryParse(Console.ReadLine(), out int examDuration);
             if (!isDurationCorrect || examDuration < 30 || examDuration > 180)
             {
-                ClearLine();
+                LineClear.ClearLine();
                 return GetExamDuration();
             }
 
@@ -69,11 +148,6 @@ namespace Exam2
 
         }
 
-        public static void ClearLine()
-        {
-            Console.SetCursorPosition(0, Console.CursorTop - 1);
-            Console.Write(new string(' ', Console.BufferWidth));
-            Console.SetCursorPosition(0, Console.CursorTop - 1);
-        }
+        
     }
 }

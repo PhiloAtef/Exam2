@@ -8,7 +8,7 @@ namespace Exam2.Models
 {
     public class PracticalExam : Exam
     {
-        public PracticalExam(DateTime time, int numQuestions, Subject subject) : base(time, numQuestions, subject) { }
+        public PracticalExam(DateTime time, int numQuestions, Subject subject, int duration) : base(time, numQuestions, subject, duration) { }
 
         public override void ShowExam()
         {

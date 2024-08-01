@@ -12,14 +12,17 @@ namespace Exam2.Models
         public int NumberOfQuestions { get; set; }
         public List<Question> Questions { get; set; }
         public Subject ExamSubject { get; set; }
+        public int Duration { get; set; }
 
-        public Exam(DateTime time, int numQuestions, Subject subject)
+        public Exam(DateTime time, int numQuestions, Subject subject, int duration)
         {
             TimeOfExam = time;
             NumberOfQuestions = numQuestions;
             Questions = new List<Question>();
             ExamSubject = subject;
+            Duration = duration;
         }
+
         public abstract void ShowExam();
 
         public int CompareTo(Exam? other)

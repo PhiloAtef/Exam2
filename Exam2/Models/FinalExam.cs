@@ -8,7 +8,7 @@ namespace Exam2.Models
 {
     internal class FinalExam: Exam
     {
-        public FinalExam(DateTime time, int numQuestions, Subject subject) : base(time, numQuestions, subject) { }
+        public FinalExam(DateTime time, int numQuestions, Subject subject, int duration) : base(time, numQuestions, subject, duration) { }
 
         public override void ShowExam()
         {

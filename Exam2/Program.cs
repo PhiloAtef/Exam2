@@ -51,7 +51,7 @@ namespace Exam2
                     {
                         Console.WriteLine($"Enter choice number {j + 1} :");
                         string answerText = Console.ReadLine() ?? string.Empty;
-                        question.AnswerList.Add(new Answer(i + 1, answerText));
+                        question.AnswerList.Add(new Answer(j + 1, answerText));
                     }
                     Console.WriteLine("Enter right answer ID:");
                     bool isNumber = int.TryParse(Console.ReadLine(), out var rightAnswerID);

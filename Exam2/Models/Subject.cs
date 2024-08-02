@@ -10,7 +10,7 @@ namespace Exam2.Models
     {
         public int SubjectId { get; set; }
         public string SubjectName { get; set; }
-        public Exam SubjectExam { get; set; }
+        public Exam? SubjectExam { get; set; }
 
         public Subject(int id, string name)
         {
@@ -20,6 +20,8 @@ namespace Exam2.Models
         public void CreateExam(Exam exam)
         {
             SubjectExam = exam;
+            List<Answer> examAnswers = new List<Answer>();
+            string answerText = string.Empty;
             Console.Clear();
             for (int i = 0; i < SubjectExam.NumberOfQuestions; i++)
             {
@@ -30,7 +32,8 @@ namespace Exam2.Models
                 {
                     if (SubjectExam.Questions[i] is not null ) 
                     {
-                        Console.WriteLine($"{j + 1}-{SubjectExam.Questions[i].AnswerList[j].AnswerText}");
+                        answerText = SubjectExam.Questions[i].AnswerList[j].AnswerText;
+                        Console.WriteLine($"{j + 1}-{answerText}");
                     }
                     else
                     {
@@ -44,8 +47,9 @@ namespace Exam2.Models
                 {
                     Console.WriteLine("Please Enter the Answer ID (in numbers)");
                     isNumber = int.TryParse(Console.ReadLine(), out answerID);
+
                 } while (!isNumber || answerID < 1 || answerID > 3);
-                
+                examAnswers.Add( new Answer() {AnswerId = answerID, AnswerText = answerText});
             }
             
         }

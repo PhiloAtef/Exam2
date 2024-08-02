@@ -41,7 +41,7 @@ namespace Exam2
             {
                 if (GetQuestionType() == 1)
                 {
-                    LineClear.ClearLine();
+                    Console.Clear();
                     Console.WriteLine("MCQ Question");
                     string MCQBody = GetQuestionBody();
                     int MCQMark = GetQuestionMark();

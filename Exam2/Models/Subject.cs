@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,9 @@ namespace Exam2.Models
         }
         public void CreateExam(Exam exam)
         {
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+
             SubjectExam = exam;
             List<Answer> examAnswers = new List<Answer>();
             string answerText = string.Empty;
@@ -62,10 +66,14 @@ namespace Exam2.Models
 
                 }
             }
-            GradeExam(SubjectExam, examAnswers);
+
+            stopWatch.Stop();
+            TimeSpan ts = stopWatch.Elapsed;
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes,ts.Seconds, ts.Milliseconds / 10);
+            GradeExam(SubjectExam, examAnswers, elapsedTime);
             
         }
-        public void GradeExam(Exam exam, List<Answer> examAnswers)
+        public void GradeExam(Exam exam, List<Answer> examAnswers, string elapsedTime)
         {
             int overallgrade = 0;
             int totalgrade = 0;
@@ -94,7 +102,7 @@ namespace Exam2.Models
                     Console.WriteLine($"Right Answer => {exam.Questions[i].RightAnswer.AnswerText}");
                 }
             }
-            Console.WriteLine($"Time = ");
+            Console.WriteLine($"Time = {elapsedTime}");
             Console.WriteLine("Thank you");
         }
 

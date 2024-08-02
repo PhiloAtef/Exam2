@@ -4,19 +4,6 @@ namespace Exam2
 {
     internal class Program
     {
-        //do not
-        //forget
-        //make
-        //it
-        //so
-        //that
-        //practical
-        //exam
-        //only
-        //takes 
-        //MCQ
-        //moheeeeemmmmm
-
         static void Main(string[] args)
         {
             Subject subject = new Subject(1, "Mathematics");
@@ -81,6 +68,35 @@ namespace Exam2
                     }
                 } 
             }
+            else
+            {
+                for (int i = 0; i < exam.NumberOfQuestions; i++)
+                {
+                        Console.Clear();
+                        Console.WriteLine("MCQ Question");
+                        string MCQBody = GetQuestionBody();
+                        int MCQMark = GetQuestionMark();
+                        Question question = new MultiChoiceQuestion("MCQ", MCQBody, MCQMark);
+                        // i < 3 can be replaced by a variable given to the function if we want to set number of answers dynamically but we will assume all MCQs have 3 answers only
+                        for (int j = 0; j < 3; j++)
+                        {
+                            Console.WriteLine($"Enter choice number {j + 1} :");
+                            string answerText = Console.ReadLine() ?? string.Empty;
+                            question.AnswerList.Add(new Answer(j + 1, answerText));
+                        }
+                        Console.WriteLine("Enter right answer ID:");
+                        bool isNumber = int.TryParse(Console.ReadLine(), out var rightAnswerID);
+                        if (!isNumber || rightAnswerID > 3 || rightAnswerID < 1)
+                        {
+                            Console.WriteLine("Not a number inputted or number not in range, Enter a correct answer");
+                            bool secondIsNumber = int.TryParse(Console.ReadLine(), out var secondRightAnswerID);
+                            rightAnswerID = secondRightAnswerID;
+                        }
+                        question.RightAnswer = question.AnswerList[rightAnswerID - 1];
+
+                        exam.Questions.Add(question);
+                }
+            }
 
             Console.Clear();
             Console.WriteLine("Do you want to start Exam (Y|N)");
@@ -93,6 +109,7 @@ namespace Exam2
             }
             else if(cki.Key.ToString().ToLower() == "n")
             {
+                Console.Clear();
                 exam.ShowExam();
             }
             else

@@ -70,18 +70,30 @@ namespace Exam2.Models
             int overallgrade = 0;
             int totalgrade = 0;
 
-            for (int i = 0; i < exam.NumberOfQuestions; i++)
+            if (exam is FinalExam)
             {
-                totalgrade += exam.Questions[i].Mark;
-                Console.WriteLine($"Question {i+1} : {exam.Questions[i].Body}");
-                Console.WriteLine($"Your Answer => {examAnswers[i].AnswerText}");
-                Console.WriteLine($"Right Answer => {exam.Questions[i].RightAnswer.AnswerText}");
-                if (examAnswers[i].Equals(exam.Questions[i].RightAnswer))
+                for (int i = 0; i < exam.NumberOfQuestions; i++)
                 {
-                    overallgrade+= exam.Questions[i].Mark;
+                    totalgrade += exam.Questions[i].Mark;
+                    Console.WriteLine($"Question {i + 1} : {exam.Questions[i].Body}");
+                    Console.WriteLine($"Your Answer => {examAnswers[i].AnswerText}");
+                    Console.WriteLine($"Right Answer => {exam.Questions[i].RightAnswer.AnswerText}");
+                    if (examAnswers[i].Equals(exam.Questions[i].RightAnswer))
+                    {
+                        overallgrade += exam.Questions[i].Mark;
+                    }
+                }
+                Console.WriteLine($"Your Grade is {overallgrade} from {totalgrade}");
+            }
+            else
+            {
+                for (int i = 0; i < exam.NumberOfQuestions; i++)
+                {
+                    Console.WriteLine($"Question {i + 1} : {exam.Questions[i].Body}");
+                    Console.WriteLine($"Your Answer => {examAnswers[i].AnswerText}");
+                    Console.WriteLine($"Right Answer => {exam.Questions[i].RightAnswer.AnswerText}");
                 }
             }
-            Console.WriteLine($"Your Grade is {overallgrade} from {totalgrade}");
             Console.WriteLine($"Time = ");
             Console.WriteLine("Thank you");
         }

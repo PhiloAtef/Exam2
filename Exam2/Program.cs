@@ -27,7 +27,7 @@ namespace Exam2
 
             Exam exam;
 
-            if (examType == 1) 
+            if (examType == 2) 
             {
                 exam = new FinalExam(examTime, questionsNumber, subject,examDuration);
             }

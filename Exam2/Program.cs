@@ -57,8 +57,9 @@ namespace Exam2
                     bool isNumber = int.TryParse(Console.ReadLine(), out var rightAnswerID);
                     if (!isNumber || rightAnswerID > 3 || rightAnswerID < 1)
                     {
-                        Console.WriteLine("Not a number inputted or number not in range, Defaulted to first answer");
-                        rightAnswerID = 1;
+                        Console.WriteLine("Not a number inputted or number not in range, Enter a correct answer");
+                        bool secondIsNumber = int.TryParse(Console.ReadLine(), out var secondRightAnswerID);
+                        rightAnswerID = secondRightAnswerID;
                     }
                     question.RightAnswer = question.AnswerList[rightAnswerID-1];
 
@@ -72,7 +73,25 @@ namespace Exam2
 
             }
 
+            Console.Clear();
+            Console.WriteLine("Do you want to start Exam (Y|N)");
+            ConsoleKeyInfo cki = Console.ReadKey();
+            if (cki.Key.ToString().ToLower() == "y")
+            {
+                subject.CreateExam(exam);
+            }
+            else if(cki.Key.ToString().ToLower() == "n")
+            {
+                exam.ShowExam();
+            }
+            else
+            {
+                return;
+            }
+
         }
+
+        #region Get functions
         public static int GetQuestionMark()
         {
             Console.WriteLine("Please enter question mark");
@@ -109,6 +128,7 @@ namespace Exam2
             }
             return questionType;
         }
+
         public static int GetNumberOfQuestions()
         {
             Console.WriteLine("Please Enter the Number of Questions");
@@ -121,6 +141,7 @@ namespace Exam2
             Console.Clear();
             return questionsNumber;
         }
+
         public static int GetExamDuration()
         {
             Console.WriteLine("Enter the time for the exam (from 30 to 180 minutes)");
@@ -146,8 +167,9 @@ namespace Exam2
 
             return examType;
 
-        }
+        } 
+        #endregion
 
-        
+
     }
 }

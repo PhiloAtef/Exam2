@@ -14,7 +14,6 @@ namespace Exam2.Models
 
         public override void DisplayQuestion()
         {
-            Console.WriteLine($"{Header}\n{Body}");
             for (int i = 0; i < AnswerList.Count; i++)
             {
                 Console.WriteLine($"{i + 1}. {AnswerList[i]}");

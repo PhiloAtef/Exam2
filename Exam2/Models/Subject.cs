@@ -29,29 +29,40 @@ namespace Exam2.Models
                 Console.WriteLine($"{SubjectExam.Questions[i].Header}\t\t\tMark {SubjectExam.Questions[i].Mark}");
                 Console.WriteLine($"{SubjectExam.Questions[i].Body}");
                 Console.WriteLine();
-                for (int j = 0; j < 3; j++)
+                if (SubjectExam.Questions[i] is MultiChoiceQuestion)
                 {
-                    if (SubjectExam.Questions[i] is not null ) 
+                    for (int j = 0; j < 3; j++)
                     {
-                        answerText = SubjectExam.Questions[i].AnswerList[j].AnswerText;
-                        Console.WriteLine($"{j + 1}-{answerText}");
+                        if (SubjectExam.Questions[i] is not null)
+                        {
+                            answerText = SubjectExam.Questions[i].AnswerList[j].AnswerText;
+                            Console.WriteLine($"{j + 1}-{answerText}");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"{j + 1}- N/A");
+                        }
                     }
-                    else
+                    Console.WriteLine();
+                    bool isNumber;
+                    int answerID;
+                    do
                     {
-                        Console.WriteLine($"{j+1}- N/A");
-                    }
-                }
-                Console.WriteLine();
-                bool isNumber;
-                int answerID;
-                do
-                {
-                    Console.WriteLine("Please Enter the Answer ID (in numbers)");
-                    isNumber = int.TryParse(Console.ReadLine(), out answerID);
+                        Console.WriteLine("Please Enter the Answer ID (in numbers)");
+                        isNumber = int.TryParse(Console.ReadLine(), out answerID);
 
-                } while (!isNumber || answerID < 1 || answerID > 3);
-                examAnswers.Add( new Answer() {AnswerId = answerID, AnswerText = SubjectExam.Questions[i].AnswerList.Find(a => a.AnswerId == answerID).AnswerText});
+                    } while (!isNumber || answerID < 1 || answerID > 3);
+                    examAnswers.Add(new Answer() { AnswerId = answerID, AnswerText = SubjectExam.Questions[i].AnswerList.Find(a => a.AnswerId == answerID).AnswerText }); 
+                }
+                else
+                {
+                    SubjectExam.Questions[i].DisplayQuestion();
+                    int TFAnswerID = GetTFAnswerID();
+                    examAnswers.Add(new Answer() { AnswerId = TFAnswerID, AnswerText = SubjectExam.Questions[i].AnswerList.Find(a => a.AnswerId == TFAnswerID).AnswerText });
+
+                }
             }
+            GradeExam(SubjectExam, examAnswers);
             
         }
         public void GradeExam(Exam exam, List<Answer> examAnswers)
@@ -67,14 +78,30 @@ namespace Exam2.Models
                 Console.WriteLine($"Right Answer => {exam.Questions[i].RightAnswer.AnswerText}");
                 if (examAnswers[i].Equals(exam.Questions[i].RightAnswer))
                 {
-                    
+                    overallgrade+= exam.Questions[i].Mark;
                 }
             }
+            Console.WriteLine($"Your Grade is {overallgrade} from {totalgrade}");
+            Console.WriteLine($"Time = ");
+            Console.WriteLine("Thank you");
         }
 
         public override string ToString()
         {
             return $"Subject Id: {SubjectId}, Subject Name: {SubjectName}";
+        }
+
+        public static int GetTFAnswerID()
+        {
+            Console.WriteLine("Please enter the Answer id (1 for True | 2 for False)");
+            bool isTrueOrFalse = int.TryParse(Console.ReadLine(), out int TFanswer);
+            if (!isTrueOrFalse || TFanswer > 2 || TFanswer < 1)
+            {
+                LineClear.ClearLine();
+                return GetTFAnswerID();
+            }
+
+            return TFanswer;
         }
     }
 }

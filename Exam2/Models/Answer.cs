@@ -29,6 +29,7 @@ namespace Exam2.Models
         {
             if (this.AnswerText.Equals(other.AnswerText, StringComparison.OrdinalIgnoreCase))
             {
+
                 return true;
             }
             return false;

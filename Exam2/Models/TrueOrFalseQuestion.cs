@@ -10,11 +10,12 @@ namespace Exam2.Models
     {
         public TrueOrFalseQuestion(string header, string body, int mark) : base(header, body, mark) 
         {
-
+            this.AnswerList.Add(new Answer(1,"True"));
+            this.AnswerList.Add(new Answer(2, "False"));
         }
         public override void DisplayQuestion()
         {
-            Console.WriteLine($"{Header}\n{Body}\n1. True\n2. False");
+            Console.WriteLine("1-True\n2-False");
         }
     }
 }

@@ -35,42 +35,51 @@ namespace Exam2
             {
                 exam = new PracticalExam(examTime, questionsNumber, subject, examDuration);
             }
-            
 
-            for (int i = 0; i < exam.NumberOfQuestions; i++)
+
+            if (exam is FinalExam)
             {
-                if (GetQuestionType() == 1)
+                for (int i = 0; i < exam.NumberOfQuestions; i++)
                 {
-                    Console.Clear();
-                    Console.WriteLine("MCQ Question");
-                    string MCQBody = GetQuestionBody();
-                    int MCQMark = GetQuestionMark();
-                    Question question = new MultiChoiceQuestion("MCQ", MCQBody, MCQMark);
-                    // i < 3 can be replaced by a variable given to the function if we want to set number of answers dynamically but we will assume all MCQs have 3 answers only
-                    for (int j = 0; j < 3; j++)
+                    if (GetQuestionType() == 1)
                     {
-                        Console.WriteLine($"Enter choice number {j + 1} :");
-                        string answerText = Console.ReadLine() ?? string.Empty;
-                        question.AnswerList.Add(new Answer(j + 1, answerText));
+                        Console.Clear();
+                        Console.WriteLine("MCQ Question");
+                        string MCQBody = GetQuestionBody();
+                        int MCQMark = GetQuestionMark();
+                        Question question = new MultiChoiceQuestion("MCQ", MCQBody, MCQMark);
+                        // i < 3 can be replaced by a variable given to the function if we want to set number of answers dynamically but we will assume all MCQs have 3 answers only
+                        for (int j = 0; j < 3; j++)
+                        {
+                            Console.WriteLine($"Enter choice number {j + 1} :");
+                            string answerText = Console.ReadLine() ?? string.Empty;
+                            question.AnswerList.Add(new Answer(j + 1, answerText));
+                        }
+                        Console.WriteLine("Enter right answer ID:");
+                        bool isNumber = int.TryParse(Console.ReadLine(), out var rightAnswerID);
+                        if (!isNumber || rightAnswerID > 3 || rightAnswerID < 1)
+                        {
+                            Console.WriteLine("Not a number inputted or number not in range, Enter a correct answer");
+                            bool secondIsNumber = int.TryParse(Console.ReadLine(), out var secondRightAnswerID);
+                            rightAnswerID = secondRightAnswerID;
+                        }
+                        question.RightAnswer = question.AnswerList[rightAnswerID - 1];
+
+                        exam.Questions.Add(question);
                     }
-                    Console.WriteLine("Enter right answer ID:");
-                    bool isNumber = int.TryParse(Console.ReadLine(), out var rightAnswerID);
-                    if (!isNumber || rightAnswerID > 3 || rightAnswerID < 1)
+                    else
                     {
-                        Console.WriteLine("Not a number inputted or number not in range, Enter a correct answer");
-                        bool secondIsNumber = int.TryParse(Console.ReadLine(), out var secondRightAnswerID);
-                        rightAnswerID = secondRightAnswerID;
+                        Console.Clear();
+                        Console.WriteLine("TrueOrFalse Question");
+                        string TFBody = GetQuestionBody();
+                        int TFMark = GetQuestionMark();
+                        Question question = new TrueOrFalseQuestion("TrueOrFalse",TFBody, TFMark);
+                        question.RightAnswer = question.AnswerList[GetTrueOrFalseRightAnswer()-1];
+                        exam.Questions.Add(question);
+
+
                     }
-                    question.RightAnswer = question.AnswerList[rightAnswerID-1];
-
-                    exam.Questions.Add(question);
-                }
-                else
-                {
-                    LineClear.ClearLine();
-                    Console.WriteLine("TrueOrFalse Question");
-                }
-
+                } 
             }
 
             Console.Clear();
@@ -78,7 +87,9 @@ namespace Exam2
             ConsoleKeyInfo cki = Console.ReadKey();
             if (cki.Key.ToString().ToLower() == "y")
             {
+
                 subject.CreateExam(exam);
+
             }
             else if(cki.Key.ToString().ToLower() == "n")
             {
@@ -88,10 +99,22 @@ namespace Exam2
             {
                 return;
             }
-
         }
 
         #region Get functions
+        public static int GetTrueOrFalseRightAnswer()
+        {
+            Console.WriteLine("Please enter the right answer id (1 for True | 2 for False)");
+            bool isTrueOrFalse = int.TryParse(Console.ReadLine(), out int TFanswer);
+            if (!isTrueOrFalse || TFanswer > 2 || TFanswer < 1)
+            {
+                Console.Clear();
+                return GetTrueOrFalseRightAnswer();
+            }
+
+            return TFanswer;
+        }
+
         public static int GetQuestionMark()
         {
             Console.WriteLine("Please enter question mark");

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Exam2.Models
 {
-    public abstract class Exam : ICloneable, IComparable<Exam>
+    public abstract class Exam 
     {
         public DateTime TimeOfExam { get; set; }
         public int NumberOfQuestions { get; set; }
@@ -25,14 +25,5 @@ namespace Exam2.Models
 
         public abstract void ShowExam();
 
-        public int CompareTo(Exam? other)
-        {
-            throw new NotImplementedException();
-        }
-
-        public object Clone()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

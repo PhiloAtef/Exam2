@@ -9,7 +9,7 @@ namespace Exam2.Models
     //base question class that will be inherited. holds the properties of questions,
     //their constructor and an abstract method of DisplayQuestion to be defined per inheritor.
 
-    public abstract class Question
+    public   abstract class Question
     {
 
         public string Header { get; set; }
